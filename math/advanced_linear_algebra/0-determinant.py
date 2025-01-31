@@ -1,4 +1,4 @@
-##!/usr/bin/env python3
+#!/usr/bin/env python3
 def determinant(matrix):
     """
     Calculates the determinant of a square matrix.
