@@ -1,32 +1,31 @@
 #!/usr/bin/env python3
+"""Function that calculates the determinant of a matrix"""
+
+
 def determinant(matrix):
-    """
-    Calculates the determinant of a square matrix.
-    """
-    # Validate input type
-    if not isinstance(matrix, list) or not all(isinstance(row, list) for row in matrix):
+    """Function that calculates the determinant of a matrix"""
+    if type(matrix) is not list or len(matrix) == 0:
         raise TypeError("matrix must be a list of lists")
-    
-    # Validate square matrix
-    if any(len(row) != len(matrix) for row in matrix):
-        raise ValueError("matrix must be a square matrix")
-    
-    # Base case: 0x0 matrix
-    if matrix == [[]]:
+    if len(matrix) > 0:
+        for i in matrix:
+            if type(i) is not list:
+                raise TypeError("matrix must be a list of lists")
+    if len(matrix) == 1 and len(matrix[0]) == 0:
         return 1
-    
-    # Base case: 1x1 matrix
-    if len(matrix) == 1:
+    for i in matrix:
+        if len(i) != len(matrix):
+            raise ValueError("matrix must be a square matrix")
+    if len(matrix) == 1 and len(matrix) == 1:
         return matrix[0][0]
-    
-    # Base case: 2x2 matrix
     if len(matrix) == 2:
-        return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
-    
-    # Recursive case: Expanding along the first row
-    det = 0
-    for col in range(len(matrix)):
-        sub_matrix = [row[:col] + row[col+1:] for row in matrix[1:]]
-        det += ((-1) ** col) * matrix[0][col] * determinant(sub_matrix)
-    
-    return det
+        return ((matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0]))
+    det = []
+    for i in range(len(matrix)):
+        mini = [[j for j in matrix[i]] for i in range(1, len(matrix))]
+        for j in range(len(mini)):
+            mini[j].pop(i)
+        if i % 2 == 0:
+            det.append(matrix[0][i] * determinant(mini))
+        if i % 2 == 1:
+            det.append(-1 * matrix[0][i] * determinant(mini))
+    return sum(det)
