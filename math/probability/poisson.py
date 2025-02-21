@@ -42,24 +42,36 @@ class Poisson:
             self.lambtha = float(total / len(data))
 
 
-if __name__ == '__main__':
-    # Example data (without numpy)
-    data = [
-        2, 5, 4, 6, 3, 4, 5, 4, 3, 2, 5, 4, 4, 3, 5, 6, 3, 4,
-        2, 4, 5, 3, 4, 4, 5, 3, 4, 5, 3, 4
-    ]
-    p1 = Poisson(data)
-    print('Lambtha:', p1.lambtha)
+    def pmf(self, k):
+        """
+        Calculates the value of the PMF for a given number of "successes".
 
-    p2 = Poisson(lambtha=5)
-    print('Lambtha:', p2.lambtha)
+        Args:
+            k (int or float): The number of "successes".
 
-    try:
-        p3 = Poisson(lambtha=-1)
-    except ValueError as e:
-        print(e)
+        Returns:
+            float: The PMF value for k.
+        """
+        if not isinstance(k, (int, float)):
+          raise TypeError("k must be a number")
 
-    try:
-        p4 = Poisson([1])  # Test for less than 2 data points
-    except ValueError as e:
-        print(e)
+        k = int(k)  # Convert k to integer
+
+        if k < 0: # Poisson distribution is for non-negative integers
+            return 0
+
+        # Calculate factorial without importing math
+        factorial = 1
+        for i in range(1, k + 1):
+            factorial *= i
+
+        # Calculate exponential without importing math (approximation)
+        exp_val = 1.0
+        term = 1.0
+        for i in range(1, 10):  # Adjust number of terms for accuracy
+            term *= self.lambtha / i
+            exp_val += term
+
+        pmf_value = (self.lambtha**k * factorial) / exp_val
+
+        return pmf_value
