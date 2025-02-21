@@ -1,15 +1,5 @@
 #!/usr/bin/env python3
 
-"""
-This module defines the Poisson distribution class.
-"""
-
-
-class Poisson:
-    """
-    Represents a Poisson distribution.
-    """
-
     def __init__(self, data=None, lambtha=1.):
         """
         Class constructor.
@@ -41,7 +31,6 @@ class Poisson:
                 total += x
             self.lambtha = float(total / len(data))
 
-
     def pmf(self, k):
         """
         Calculates the value of the PMF for a given number of "successes".
@@ -60,12 +49,12 @@ class Poisson:
         if k < 0: # Poisson distribution is for non-negative integers
             return 0
 
-        # Calculate factorial without importing math
+        # Calculate factorial without external functions
         factorial = 1
         for i in range(1, k + 1):
             factorial *= i
 
-        # Calculate exponential without importing math (approximation)
+        # Calculate exponential without external functions (approximation)
         exp_val = 1.0
         term = 1.0
         for i in range(1, 10):  # Adjust number of terms for accuracy
