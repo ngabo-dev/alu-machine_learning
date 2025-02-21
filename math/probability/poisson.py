@@ -71,8 +71,9 @@ class Poisson:
         k = int(k)
         if k < 0:
             return 0
-        return (self.lambtha ** k * self.exp(-self.lambtha)) / self.factorial(k)
-
+        numerator = self.lambtha ** k * self.exp(-self.lambtha)
+        denominator = self.factorial(k)
+        return numerator / denominator
 
 if __name__ == '__main__':
     # Example data (without numpy)
