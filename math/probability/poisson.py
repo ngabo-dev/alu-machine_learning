@@ -76,6 +76,8 @@ class Poisson:
         return numerator / denominator
 
 if __name__ == '__main__':
+
+
     # Example data (without numpy)
     data = [
         2, 5, 4, 6, 3, 4, 5, 4, 3, 2, 5, 4, 4, 3, 5, 6, 3, 4,
