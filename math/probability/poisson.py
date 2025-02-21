@@ -4,9 +4,6 @@
 This module defines the Poisson distribution class.
 """
 
-from math import exp, factorial
-
-
 class Poisson:
     """
     Represents a Poisson distribution.
@@ -38,6 +35,28 @@ class Poisson:
                 raise ValueError("data must contain multiple values")
             self.lambtha = float(sum(data) / len(data))
 
+    def factorial(self, n):
+        """
+        Computes the factorial of n.
+        """
+        if n == 0 or n == 1:
+            return 1
+        fact = 1
+        for i in range(2, n + 1):
+            fact *= i
+        return fact
+
+    def exp(self, x):
+        """
+        Computes e^x using a Taylor series approximation.
+        """
+        result = 1
+        term = 1
+        for i in range(1, 20):  # 20 terms for precision
+            term *= x / i
+            result += term
+        return result
+
     def pmf(self, k):
         """
         Calculates the PMF for a given number of successes k.
@@ -51,7 +70,7 @@ class Poisson:
         k = int(k)
         if k < 0:
             return 0
-        return (self.lambtha ** k * exp(-self.lambtha)) / factorial(k)
+        return (self.lambtha ** k * self.exp(-self.lambtha)) / self.factorial(k)
 
 
 if __name__ == '__main__':
