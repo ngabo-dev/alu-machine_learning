@@ -1,5 +1,17 @@
 #!/usr/bin/env python3
 
+"""
+This module defines the Poisson distribution class.
+"""
+
+from math import exp, factorial
+
+
+class Poisson:
+    """
+    Represents a Poisson distribution.
+    """
+
     def __init__(self, data=None, lambtha=1.):
         """
         Class constructor.
@@ -15,7 +27,6 @@
             ValueError: If lambtha is not positive or data contains less
                 than 2 points.
         """
-
         if data is None:
             if not isinstance(lambtha, (int, float)) or lambtha <= 0:
                 raise ValueError("lambtha must be a positive value")
@@ -25,42 +36,44 @@
                 raise TypeError("data must be a list")
             if len(data) < 2:
                 raise ValueError("data must contain multiple values")
-
-            total = 0
-            for x in data:
-                total += x
-            self.lambtha = float(total / len(data))
+            self.lambtha = float(sum(data) / len(data))
 
     def pmf(self, k):
         """
-        Calculates the value of the PMF for a given number of "successes".
+        Calculates the PMF for a given number of successes k.
 
         Args:
-            k (int or float): The number of "successes".
+            k (int): Number of occurrences.
 
         Returns:
-            float: The PMF value for k.
+            float: PMF value for k.
         """
-        if not isinstance(k, (int, float)):
-          raise TypeError("k must be a number")
-
-        k = int(k)  # Convert k to integer
-
-        if k < 0: # Poisson distribution is for non-negative integers
+        k = int(k)
+        if k < 0:
             return 0
+        return (self.lambtha ** k * exp(-self.lambtha)) / factorial(k)
 
-        # Calculate factorial without external functions
-        factorial = 1
-        for i in range(1, k + 1):
-            factorial *= i
 
-        # Calculate exponential without external functions (approximation)
-        exp_val = 1.0
-        term = 1.0
-        for i in range(1, 10):  # Adjust number of terms for accuracy
-            term *= self.lambtha / i
-            exp_val += term
+if __name__ == '__main__':
+    # Example data (without numpy)
+    data = [
+        2, 5, 4, 6, 3, 4, 5, 4, 3, 2, 5, 4, 4, 3, 5, 6, 3, 4,
+        2, 4, 5, 3, 4, 4, 5, 3, 4, 5, 3, 4
+    ]
+    p1 = Poisson(data)
+    print('Lambtha:', p1.lambtha)
+    print('PMF(3):', p1.pmf(3))
 
-        pmf_value = (self.lambtha**k * factorial) / exp_val
+    p2 = Poisson(lambtha=5)
+    print('Lambtha:', p2.lambtha)
+    print('PMF(3):', p2.pmf(3))
 
-        return pmf_value
+    try:
+        p3 = Poisson(lambtha=-1)
+    except ValueError as e:
+        print(e)
+
+    try:
+        p4 = Poisson([1])  # Test for less than 2 data points
+    except ValueError as e:
+        print(e)
