@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Represents a normal distribution.
 
-Can be initialized with given parameters or from a dataset. 
+Can be initialized with given parameters or from a dataset.
 Includes methods for calculating z-scores, x-values, PDF, and CDF.
 """
 
