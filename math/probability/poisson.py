@@ -4,6 +4,7 @@
 This module defines the Poisson distribution class.
 """
 
+
 class Poisson:
     """
     Represents a Poisson distribution.
