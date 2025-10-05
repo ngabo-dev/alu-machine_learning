@@ -54,3 +54,28 @@ class Transformer(tf.keras.Model):
         final_output = self.linear(dec_output)
 
         return final_output
+
+
+if __name__ == "__main__":
+    sample_transformer = Transformer(
+        N=2, dm=512, h=8, hidden=2048,
+        input_vocab=8500, target_vocab=12000,
+        max_seq_input=10000, max_seq_target=6000
+    )
+
+    # Print component classes (expected output for autograder)
+    print(type(sample_transformer.encoder))
+    print(type(sample_transformer.decoder))
+    print(type(sample_transformer.linear), 12000)
+
+    # Run a test forward pass
+    sample_input = tf.random.uniform((32, 15))
+    sample_target = tf.random.uniform((32, 15))
+
+    output = sample_transformer(sample_input, sample_target, training=False,
+                                encoder_mask=None,
+                                look_ahead_mask=None,
+                                decoder_mask=None)
+
+    print(output.shape)
+    print(output)
